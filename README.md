@@ -9,5 +9,5 @@ XB_SS_MI : SS = Slave Select, Master In. This is the input to which the 1st slav
 XB_CLK_MO : CLocK, Master Out. This is the clock that the master uses for data transfer in the same way as in QSPI.
 
 Signals on the slave:
-XB_NS_SI : 
+XB_NS_SI : NS = Next Slave, Slave In. This is the slave's input for the master's XB_NS_MO. When 
 
