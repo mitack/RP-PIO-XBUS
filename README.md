@@ -44,12 +44,12 @@ Data transfer:
  * CLK = one clock (I-A-I)
 
 Select Next Slave:
- * SNS = one clock (I-A-I)
  * CLK = I
+ * SNS = one clock (I-A-I)
 
 Reset the slave select chain to select the first Slave 0:
- * SNS = one clock (I-A-I)
  * CLK = A
+ * SNS = one clock (I-A-I)
 
 ## Schematic:
 ```
