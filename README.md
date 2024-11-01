@@ -1,4 +1,5 @@
-# RP-PIO-XBUS
+## RP-PIO-XBUS
+
 A QSPI/OSPI-like 4/8 bit PIO-based master/multi-slave bus for RP2xxx
 
 Similar to QSPI/OSPI in that it has CLK and D0-D3/7, but multislave through having a chained slave select that is passed from slave to slave until it reaches the master, at which point the master "resets" the select chain causing the last slave to get SELECTED.
@@ -16,28 +17,31 @@ Signals on the slave:
 * XB_CSS_SI : Chain Slave Select, Slave In. This is how a slave receives the SELECTED from the next slave in the chain when the master clocks the SNS.
 * XB_CSS_SO : Chain Slave Select, Slave Out. This is how a slave passes the SELECTED to the previous slave in the chain when the master clocks the SNS.
 
-Principles of operation:
+# Principles:
 
-The idle(inactive/deasserted) states of all signals is low/0.
+* The idle(inactive/deasserted) states of all signals is low/0.
 
-At any given time a single slave in the chain is SELECTED, and can be signalled to deselect itself and pass the SELECTED status to the previous slave in the chain by the master clocking the SNS signal while the CLK is inactive. The order is which the slaves are SELECTED is from the last slave in the chain (furthest away from the master) to the 1st slave in the chain (nearest to the master).
+* At any given time a single slave in the chain is SELECTED, and can be signalled to deselect itself and pass the SELECTED status to the previous (closer to the master) slave in the chain by the master clocking(I-A-I) the SNS signal while the CLK=I (is inactive).
 
+* The order is which the slaves are SELECTED is from the last slave in the chain (furthest away from the master) to the 1st slave in the chain (nearest to the master).
 
-  * A 0-1 transition signals:
-    * The currently SELECTED slave to deselect itself
-    * The slave whose CSS_SI is low to select itself becoming SELECTED
-  * 1-0 signals: 
-  *  and 1-0 signals the slave whose  and assert its CSS_SO, and 1-0 signals  thus signalling the previous slave that it needs to become SELECTED.
+# Operations 
 
+Idle:
+ * SNS = I
+ * CLK = I
 
-For this to work, there needs to be a big(~100K) pulldown on SS_SI, a normal(~10K) pullup on SS_SO, and this is how the last slave "knows" there is no next slave- because there is nobody to pull up its SS_SI.
+Transfer:
+ * SNS = I
+ * CLK = I-A-I
 
-CLK=0, NS=1,0,1 - resets all slaves, here is how:
-                    When slaves (should be all of the at the same time) detect that condition, they:
-                      1: Clear its SELECTED flag
-                      2: Sets its SS_SO line in Z state(.
-                    The whole system hinges on the fact that there is a big(~100K) pulldown on SS_SI and a regular(~10K) pullup on the SS_SO
-CLK=1, NS=1,0,1 - causes the current slave to deselect itself and select the previous slave. Here is how:
-                    If a slave's SELECTED flag is on, it clears it and asserts its SS_SO(low), which causes the previous slave seeing its SS_SI go low to set its SELECTED flag, i.e. get selected.
-                    
+Select Next Slave:
+ * SNS = I-A-I
+ * CLK = I
+
+Reset the slave select chain:
+ * SNS = I-A-I
+ * CLK = A
+
+# Schematic:
 
