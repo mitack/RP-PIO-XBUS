@@ -6,6 +6,10 @@ Similar to QSPI/OSPI in that it has CLK and D0-D3/7, but multi-slave by utilizin
 
 The chain slave select is somewhat similar to how SPI can be daisy-chanined, except instead of chaining the data, its the slave select that is chained.
 
+Abreviations for signal levels: A = Active(asserted), I = Inactive(deasserted,idle)
+
+## Signals
+
 Signals on the master:
 * XB_CLK_MO : CLocK, Master Out. This is the clock that the master uses for data transfer, connected to all slaves's XB_CLK_SI, same as in QSPI.
 * XB_SNS_MO : Select Next Slave, Master Out. This is connected to all slave's XB_SNS_SI and when clocked signals the currently SELECTED slave to deselect itself and pass the SELECTED to the previous slave or the master if it is the 1st slave holding the SELECTED.
@@ -19,9 +23,13 @@ Signals on the slave:
 
 ## Principles:
 
-* The idle(inactive/deasserted) states of all signals is low/0.
+* The inactive(deasserted,idle) level of all control signals- CLK, SNS, CSS is low/0 and respectively their active state is high/1.
 
-* At any given time a single slave in the chain is SELECTED, and can be signalled to deselect itself and pass the SELECTED status to the previous (closer to the master) slave in the chain by the master clocking(I-A-I) the SNS signal while the CLK=I (is inactive).
+* At any given time a single slave in the chain is SELECTED, which is determined by having its CSS_SO=I and CSS_SI=A.
+
+* To cause the current slave to become deselected and the previous (in respect to the currently SELECTED) slave to become SELECTED, the master clocks SNS once. This has no effect on slaves whose CSS_SI=A and CSS_SO=A and slaves whose CSS_SI=I and CSS_SO=I, but causes the currently SELECTED slave having CSS_SI=A and CSS_SO=I to activate its CSS_SO thus making the previous slave SELECTED- see the prev paragraph for the SELECTED criteria.
+
+*   , and can be signalled to deselect itself and pass the SELECTED status to the previous (closer to the master) slave in the chain by the master clocking(I-A-I) the SNS signal while the CLK=I (is inactive).
 
 * The order is which the slaves are SELECTED is from the last slave in the chain (furthest away from the master) to the 1st slave in the chain (nearest to the master).
 
