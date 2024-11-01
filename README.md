@@ -3,6 +3,10 @@ A QSPI like 4/8/16 bit PIO based master/multi-slave bus for RP2xxx
 
 Similar to QSPI in that it has CLK and D0-Dn where n can be 4, 8 or 16, but with the novelty of having a running slave select that is passed from slave to slave until it reaches the master, at which point the master "resets" the slaves, i.e. the last slave gets selected and the process repeats. The running slave select is somewhat similar to how SPI can be daisy-chanined, except instead of chaining the data I am chaining a single bit slave select.
 
+Purely electrical signal
+* XB_IO_VDD : This is - see the [RP2350 Datasheet](https://datasheets.raspberrypi.com/rp2350/rp2350-datasheet.pdf) for more details.
+
+
 Signals on the master:
 * XB_CLK_MO : CLocK, Master Out. This is the clock that the master uses for data transfer, connected to the all slaves's XB_CLK_SI, same as in QSPI.
 * XB_NS_MO : Next Slave, Master Out. This is connected to all slave's XB_NS_SI(see below).
