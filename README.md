@@ -23,32 +23,32 @@ Signals on the slave:
 
 ## Principles:
 
-* The inactive(deasserted,idle) level of all control signals- CLK, SNS, CSS is low/0 and respectively their active state is high/1.
+* The inactive(deasserted,idle) level of all control signals- CLK, SNS and CSS is low/0 and respectively their active state is high/1.
+
+* All slaves must have their CSS_SI pulled up by internal or external pullup, and their CSS_SO must be configured as open collector/drain.
 
 * At any given time a single slave in the chain is SELECTED, which is determined by having its CSS_SO=I and CSS_SI=A.
 
-* To cause the current slave to become deselected and the previous (in respect to the currently SELECTED) slave to become SELECTED, the master clocks SNS once. This has no effect on slaves whose CSS_SI=A and CSS_SO=A and slaves whose CSS_SI=I and CSS_SO=I, but causes the currently SELECTED slave having CSS_SI=A and CSS_SO=I to activate its CSS_SO thus making the previous slave SELECTED- see the prev paragraph for the SELECTED criteria.
+* To reset the slave select chain, the master clocks (I-A-I) once its SNS with CLK=A. This causes all slaves to set their CSS_SO=I, causing all slaves in the chain except the last one to have their CSS_SI=I. The last slave is a special case- since there is no next slave whose CSS_SO to deactivate its CSS_SI, it stays active due to the pullup and makes that slave SELECTED- see the criteria in the paragraph above. 
 
-*   , and can be signalled to deselect itself and pass the SELECTED status to the previous (closer to the master) slave in the chain by the master clocking(I-A-I) the SNS signal while the CLK=I (is inactive).
+* To cause the current slave to become deselected and the previous (in respect to the currently SELECTED) slave to become SELECTED, the master clocks SNS once with CLK=I. This has no effect on slaves whose CSS_SI=A and CSS_SO=A and slaves whose CSS_SI=I and CSS_SO=I, but causes the currently SELECTED slave (whose CSS_SI=A and CSS_SO=I) to activate its CSS_SO thus making the previous slave SELECTED and itself deselected- see 2 paragraphs back for the SELECTED criteria.
 
-* The order is which the slaves are SELECTED is from the last slave in the chain (furthest away from the master) to the 1st slave in the chain (nearest to the master).
-
-## Operations 
+## Summary:
 
 Idle:
  * SNS = I
  * CLK = I
 
-Transfer:
+Data transfer:
  * SNS = I
- * CLK = I-A-I
+ * CLK = one clock (I-A-I)
 
 Select Next Slave:
- * SNS = I-A-I
+ * SNS = one clock (I-A-I)
  * CLK = I
 
 Reset the slave select chain:
- * SNS = I-A-I
+ * SNS = one clock (I-A-I)
  * CLK = A
 
 ## Schematic:
