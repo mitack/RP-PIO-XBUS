@@ -54,7 +54,7 @@ Reset the slave select chain:
 ## Schematic:
 ```
   Master
-+--------+
++--------+    Note: VSS_SI pulled up to Vdd, CSS_SO open drain.
 |        |
 | SNS_MO +-----+------------------------~...~----+---------------------------+
 | CLK_MO +---+-|------------------------~...~--+-|-------------------------+ |
