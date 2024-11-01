@@ -47,7 +47,7 @@ Select Next Slave:
  * SNS = one clock (I-A-I)
  * CLK = I
 
-Reset the slave select chain:
+Reset the slave select chain to select the first Slave 0:
  * SNS = one clock (I-A-I)
  * CLK = A
 
