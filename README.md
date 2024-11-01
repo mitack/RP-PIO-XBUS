@@ -2,7 +2,7 @@
 
 A QSPI/OSPI-like 4/8 bit PIO-based master/multi-slave bus for RP2xxx
 
-Similar to QSPI/OSPI in that it has CLK and D0-D3/7, but multi-slave by utilizing a chained slave select that is passed from slave to slave until it reaches the master, at which point the master "resets" the select chain causing the last slave to get SELECTED.
+Similar to QSPI/OSPI in that it has CLK and D0-D3/7, but multi-slave by utilizing a chained slave select that is passed from slave to slave until it reaches the master, at which point the master "resets" the select chain causing the last slave to become SELECTED.
 
 The chain slave select is somewhat similar to how SPI can be daisy-chanined, except instead of chaining the data, its the slave select that is chained.
 
