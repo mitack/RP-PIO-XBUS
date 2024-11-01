@@ -1,4 +1,4 @@
-## RP-PIO-XBUS
+# RP-PIO-XBUS
 
 A QSPI/OSPI-like 4/8 bit PIO-based master/multi-slave bus for RP2xxx
 
@@ -17,7 +17,7 @@ Signals on the slave:
 * XB_CSS_SI : Chain Slave Select, Slave In. This is how a slave receives the SELECTED from the next slave in the chain when the master clocks the SNS.
 * XB_CSS_SO : Chain Slave Select, Slave Out. This is how a slave passes the SELECTED to the previous slave in the chain when the master clocks the SNS.
 
-# Principles:
+## Principles:
 
 * The idle(inactive/deasserted) states of all signals is low/0.
 
@@ -25,7 +25,7 @@ Signals on the slave:
 
 * The order is which the slaves are SELECTED is from the last slave in the chain (furthest away from the master) to the 1st slave in the chain (nearest to the master).
 
-# Operations 
+## Operations 
 
 Idle:
  * SNS = I
@@ -43,5 +43,5 @@ Reset the slave select chain:
  * SNS = I-A-I
  * CLK = A
 
-# Schematic:
+## Schematic:
 
