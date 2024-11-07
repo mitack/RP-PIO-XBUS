@@ -25,7 +25,7 @@ Signals on the slave:
 
 * The inactive(deasserted,idle) level of all control signals- CLK, SNS and CSS is low/0 and respectively their active state is high/1.
 
-* All slaves must have their CSS_SI pulled up by internal or external pullup, and their CSS_SO must be configured as open collector/drain.
+* CSS_SI and CSS_MI must be pulled up by internal or external pullup, all CSS_SO must be configured as open collector/drain.
 
 * At any given time a single slave in the chain is SELECTED, which is determined by having its CSS_SO=I and CSS_SI=A.
 
@@ -47,7 +47,7 @@ Select Next Slave:
  * CLK = I
  * SNS = one clock (I-A-I)
 
-Reset the slave select chain to select the first Slave 0:
+Reset the slave select chain to make the the first slave (Slave 0) SELECTED or determine that there are no slaves if CSS_MI is high (b/c there is no slave to pull it down):
  * CLK = A
  * SNS = one clock (I-A-I)
 
