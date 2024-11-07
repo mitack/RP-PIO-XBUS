@@ -54,7 +54,7 @@ Reset the slave select chain to make the the first slave (Slave 0) SELECTED or d
 ## Schematic:
 ```
   Master
-+--------+    Note: VSS_SI pulled up to Vdd, CSS_SO open drain.
++--------+    Note: VSS_SI pulled up to Vdd, CSS_SO open collector/drain.
 |        |
 | SNS_MO +-----+------------------------~...~----+---------------------------+
 | CLK_MO +---+-|------------------------~...~--+-|-------------------------+ |
